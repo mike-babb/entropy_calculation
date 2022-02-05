@@ -1,0 +1,65 @@
+---
+title: "Calculate entropy"
+author: "Mike Babb"
+date: "2/4/2022"
+output: html_document
+---
+
+# Calculate the entropy of a vector
+Uses the formula as specified in the following Wikipedia article:  
+https://en.wikipedia.org/wiki/Entropy_(information_theory)
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# remove old stuff
+rm(list = ls())
+gc()
+
+
+```
+
+```{r function definition}
+calc_entropy <- function(x){
+  # calculate the entropy of a vector
+  
+  # count the number of unique items in a list
+  x_count <- unname(table(x))
+  # compute the probability of each item's occurrence
+  px <- x_count / length(x)
+  
+  # compute the entropy score
+  entropy_score <- -1 * (sum(px * log(px)))
+  print(entropy_score)
+  
+}
+```
+
+
+```{r define lists}
+# lists of store names
+sn1 <- c('starbucks', 'starbucks', 'starbucks')
+sn2 <- c('stanford', 'staples', 'staples')
+sn3 <- c('stanford', 'staples', 'starbucks')
+
+```
+
+```{r execute function defintion}
+calc_entropy(x = sn1) # no diversity, zero entropy
+calc_entropy(x = sn2) # moderate diversity, moderate entropy
+calc_entropy(x = sn3) # high diversity, high entropy
+
+```
+
+```{r demonstrate item position}
+# position does not matter
+sn3
+sn3_shuffle <- sample(x = sn3)
+sn3_shuffle
+calc_entropy(x=sn3_shuffle)
+
+```
+
+
+
